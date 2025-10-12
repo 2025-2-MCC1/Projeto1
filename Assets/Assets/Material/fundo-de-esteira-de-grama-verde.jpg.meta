@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      fundo-de-esteira-de-grama-verde_0: 928825020853614755
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
