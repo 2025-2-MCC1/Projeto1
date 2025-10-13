@@ -184,7 +184,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SacoLixo_0: -4583727458892790470
+      SacoLixo_1: 6888099633750708356
+      SacoLixo_2: 4853076185513702211
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -3695,8 +3695,8 @@ Transform:
   m_GameObject: {fileID: 1000641949}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalPosition: {x: -0.5, y: 1, z: -3.5}
+  m_LocalScale: {x: 0.7, y: 0.5, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3713,9 +3713,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 359b73c2cbf79a049b6bbf61f1c25967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocidadeMovimento: 5
-  forcaPulo: 5
-  distanciaRaycast: 1.1
 --- !u!54 &1000641955
 Rigidbody:
   m_ObjectHideFlags: 0
