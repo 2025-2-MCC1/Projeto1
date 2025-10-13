@@ -337,7 +337,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 44179074}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1839451162}
+        m_TargetAssemblyTypeName: Options, Assembly-CSharp
+        m_MethodName: SelecionarFase1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &44179074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +678,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6b814927a79d4634b8e9658c7c87c200, type: 2}
+  - {fileID: 2100000, guid: 875497626e4228840846a28673ca916b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1116,6 +1128,7 @@ GameObject:
   - component: {fileID: 1839451161}
   - component: {fileID: 1839451160}
   - component: {fileID: 1839451159}
+  - component: {fileID: 1839451162}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1184,6 +1197,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1839451162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839451158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50517aeb0f381cb40980bdce62aa40c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1856419009
 GameObject:
   m_ObjectHideFlags: 0
