@@ -22,3 +22,5 @@ public class UILixos : MonoBehaviour
         lixosText.text = playerInventory.NumeroLixos.ToString();
     }
 }
+
+
