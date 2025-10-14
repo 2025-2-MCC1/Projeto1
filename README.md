@@ -21,7 +21,7 @@
 
 O jogo chamado "Trash Collector" se baseia em um jovem escoteiro chamado Scott, que se aventura em uma zona florestal com o intuito de coletar os lixos e preservá-la, e com isso, ganhar o distintivo de "Amigo do Meio-Ambiente".
 <br><br>
-O jogo é um jogo point and click onde você deve coletar o lixo com o menor número de passos possível. Scott precisa explorar diferentes áreas da floresta, identificar os resíduos descartados incorretamente e recolhê-los de forma estratégica, planejando sua rota para otimizar seus movimentos.
+O jogo é um puzzle onde você deve coletar o lixo com o menor número de passos possível. Scott precisa explorar diferentes áreas da floresta, identificar os resíduos descartados incorretamente e recolhê-los de forma estratégica, planejando sua rota para otimizar seus movimentos.
 <br><br>
 Com uma jogabilidade simples mas desafiadora, "Trash Collector" combina conscientização ambiental com mecânicas de puzzle, incentivando os jogadores a pensarem de forma estratégica enquanto aprendem sobre a importância da preservação do meio ambiente.
 <br><br>
