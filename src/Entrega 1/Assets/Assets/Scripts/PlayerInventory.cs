@@ -14,4 +14,12 @@ public class PlayerInventory : MonoBehaviour
         NumeroLixos++;
         onLixosCollected.Invoke(this);
     }
+
+    // Reseta o inventário (usado ao reiniciar a fase)
+    public void ResetInventory()
+    {
+        NumeroLixos =0;
+        // Notifica listeners para atualizar UI
+        onLixosCollected?.Invoke(this);
+    }
 }
