@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 
     private PlayerInventory playerInventory;
 
-    [SerializeField] private int health = 1;
+    private int health = 1;
     private bool canMove = true;
     private bool isAlive = true;
 
@@ -19,9 +19,9 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        // Inicializa referências
         initialPosition = transform.position;
         playerInventory = GetComponent<PlayerInventory>();
+        ResetPlayerState();
     }
 
     void Update()
@@ -55,22 +55,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Colisão física (não-trigger)
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider bater)
     {
-        HandleHit(collision.gameObject);
+        HandleHit(bater.gameObject);
     }
 
-    // Colisão como trigger
-    void OnTriggerEnter(Collider other)
-    {
-        HandleHit(other.gameObject);
-    }
-
-    private void HandleHit(GameObject other)
+    private void HandleHit(GameObject bater)
     {
         // Verifica se o objeto atingido tem o componente Inimigo
-        if (other.GetComponent<Inimigo>() != null)
+        if (bater.GetComponent<Inimigo>() != null)
         {
             DamagePlayer();
             return;
@@ -79,7 +72,7 @@ public class Player : MonoBehaviour
         // Verifica se chegou na Flag. Evita chamar CompareTag se a tag não estiver definida.
         bool isFlag = false;
 
-        if (other.name == "Flag")
+        if (bater.name == "Flag")
         {
             isFlag = true;
         }
@@ -88,7 +81,7 @@ public class Player : MonoBehaviour
             // CompareTag lança UnityException se a tag não existe. Capturamos para evitar log repetido.
             try
             {
-                if (other.CompareTag("Flag"))
+                if (bater.CompareTag("Flag"))
                     isFlag = true;
             }
             catch (UnityException)
@@ -140,7 +133,6 @@ public class Player : MonoBehaviour
         Debug.Log(mensagem + $" (collected={lixosColetados}, total={totalLixosInLevel})");
         Debug.Log("Estrelas obtidas: " + estrelas);
 
-        // Se quiser, chamar menu de nível completo
         menuScript?.ShowLevelCompleteMenu();
     }
 
@@ -159,6 +151,7 @@ public class Player : MonoBehaviour
 
     public void ResetPlayerState()
     {
+        Debug.Log("resetou");
         health = 1;
         isAlive = true;
         canMove = true;

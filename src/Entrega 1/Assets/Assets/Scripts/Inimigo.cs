@@ -4,15 +4,13 @@ public class Inimigo : MonoBehaviour
 {
     public Vector3 initialPosition;
 
-    [Tooltip("Velocidade de movimento em unidades por segundo")]
-    public float velocidade = 1f;
+    public float velocidade = 5f;
 
     // limites do movimento no eixo X
     public float limiteDireita = 2.5f;
     public float limiteEsquerda = -1.5f;
 
-    // direção atual:1 = direita, -1 = esquerda
-    private float direcao = 1f;
+    private float direcao = 3f;
 
     void Start()
     {
@@ -28,11 +26,11 @@ public class Inimigo : MonoBehaviour
         // Inverte a direção ao atingir os limites
         if (transform.position.x >= limiteDireita && direcao > 0f)
         {
-            direcao = -1f;
+            direcao = -3f;
         }
         else if (transform.position.x <= limiteEsquerda && direcao < 0f)
         {
-            direcao = 1f;
+            direcao = 3f;
         }
     }
 }
