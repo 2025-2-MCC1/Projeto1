@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     // Referência ao inventário do jogador
     private PlayerInventory playerInventory;
 
+    // Número da fase atual
+    public int numeroDaFase = 1;
+
     // Estado do jogador
     private int health = 1;
     private bool canMove = true;
@@ -147,39 +150,50 @@ public class Player : MonoBehaviour
         int lixosFaltando = totalLixosInLevel - lixosColetados;
 
         int estrelas;
-        string mensagem;
-
         if (lixosFaltando <= 0)
         {
             estrelas = 3;
-            mensagem = "Chegou a bandeira e coletou todos os lixos: 3 estrelas";
         }
         else if (lixosFaltando == 1)
         {
             estrelas = 2;
-            mensagem = "Chegou a bandeira mas faltou um lixo: 2 estrelas";
         }
         else if (lixosFaltando == 2)
         {
             estrelas = 1;
-            mensagem = "Chegou a bandeira mas faltaram 2 lixos: 1 estrela";
         }
         else
         {
             estrelas = 0;
-            mensagem = "Chegou a bandeira com um lixo ou menos: 0 estrelas";
         }
 
         canMove = false;
 
         // Exibe a mensagem de conclusão da fase e as estrelas obtidas
-        Debug.Log(mensagem + $" (collected={lixosColetados}, total={totalLixosInLevel}, steps={currentSteps}/{maxStepsAllowed})");
         Debug.Log("Estrelas obtidas: " + estrelas);
 
         menuScript?.ShowLevelCompleteMenu();
-        levelComplete.SetActive(true);
-        fimDeFaseUI.MostrarEstrelas(estrelas);
+        if (levelComplete != null) levelComplete.SetActive(true);
+        fimDeFaseUI?.MostrarEstrelas(estrelas);
+
+        // Salva as estrelas (chamada MOVIDA para dentro de um método válido)
+        SalvarEstrelas(estrelas);
     }
+
+    // Salva o número de estrelas obtidas na fase
+    public void SalvarEstrelas(int estrelas)
+    {
+        string chave = "Estrelas_Fase" + numeroDaFase;
+
+        int estrelasSalvas = PlayerPrefs.GetInt(chave, 0);
+
+        if (estrelas > estrelasSalvas)
+        {
+            PlayerPrefs.SetInt(chave, estrelas);
+            PlayerPrefs.Save();
+        }
+    }
+
 
     // Aplica dano ao jogador ao colidir com um inimigo
     public void DamagePlayer()

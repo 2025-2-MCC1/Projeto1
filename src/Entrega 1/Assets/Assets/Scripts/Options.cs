@@ -1,6 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Options : MonoBehaviour
@@ -27,22 +25,10 @@ public class Options : MonoBehaviour
         star3.enabled = estrelas >= 3;
     }
 
-    // Métodos para navegação entre cenas
-    public void MainMenu()
+    void Start()
     {
-        SceneManager.LoadScene(0);
-    }
-    public void LevelSelect()
-    {
-        SceneManager.LoadScene(1);
-    }
-    public void OptionsMenu()
-    {
-        SceneManager.LoadScene(2);
-    }
-    public void SelecionarFase1()
-    {
-        SceneManager.LoadScene(3);
+        int estrelas = PlayerPrefs.GetInt("Estrelas_Fase1", 0);
+        MostrarEstrelas(estrelas);
     }
 
     // Método para mostrar menu de GameOver
