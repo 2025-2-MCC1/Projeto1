@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,7 +15,7 @@ public class PlayerInventory : MonoBehaviour
         onLixosCollected.Invoke(this);
     }
 
-    // Reseta o invent�rio (usado ao reiniciar a fase)
+    // Reseta o inventário (usado ao reiniciar a fase)
     public void ResetInventory()
     {
         NumeroLixos =0;

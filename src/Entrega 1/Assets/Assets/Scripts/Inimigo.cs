@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Inimigo : MonoBehaviour
 {
@@ -19,11 +19,11 @@ public class Inimigo : MonoBehaviour
 
     void Update()
     {
-        // Move o inimigo na direção atual
+        // Move o inimigo na direÃ§Ã£o atual
         Vector3 deslocamento = Vector3.right * direcao * velocidade * Time.deltaTime;
         transform.Translate(deslocamento);
 
-        // Inverte a direção ao atingir os limites
+        // Inverte a direÃ§Ã£o ao atingir os limites
         if (transform.position.x >= limiteDireita && direcao > 0f)
         {
             direcao = -3f;

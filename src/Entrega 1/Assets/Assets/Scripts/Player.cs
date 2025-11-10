@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Options menuScript; // Refer�ncia ao script de menu (classe `Options` em MenuScripts.cs)
+    [SerializeField] private Options menuScript; // Referï¿½ncia ao script de menu (classe `Options` em MenuScripts.cs)
+    [SerializeField] private UISteps uiSteps; // Referência ao script de UI de passos
 
     private PlayerInventory playerInventory;
 
@@ -17,11 +18,18 @@ public class Player : MonoBehaviour
     [Tooltip("Quantidade total de lixos nesta fase. Ajuste conforme a fase.")]
     [SerializeField] private int totalLixosInLevel = 3;
 
+    [Header("Step Limit Settings")]
+    [Tooltip("Limite de passos permitidos nesta fase. 0 = sem limite.")]
+    [SerializeField] private int maxStepsAllowed = 20;
+
+    private int currentSteps = 0;
+
     void Awake()
     {
         initialPosition = transform.position;
         playerInventory = GetComponent<PlayerInventory>();
         ResetPlayerState();
+        UpdateStepsUI();
     }
 
     void Update()
@@ -34,24 +42,48 @@ public class Player : MonoBehaviour
 
         if (!canMove) return;
 
+        bool moved = false;
+
         if (Input.GetKeyDown(KeyCode.W) && (transform.position.z < 4.5f))
         {
             transform.position += new Vector3(0, 0, 1f);
+            moved = true;
         }
 
         if (Input.GetKeyDown(KeyCode.S) && (transform.position.z > -4.5f))
         {
             transform.position += new Vector3(0, 0, -1f);
+            moved = true;
         }
 
         if (Input.GetKeyDown(KeyCode.A) && (transform.position.x > -4.5f))
         {
             transform.position += new Vector3(-1f, 0, 0);
+            moved = true;
         }
 
         if (Input.GetKeyDown(KeyCode.D) && (transform.position.x < 4.5f))
         {
             transform.position += new Vector3(1f, 0, 0);
+            moved = true;
+        }
+
+        // Incrementa contador se houve movimento
+        if (moved)
+        {
+            currentSteps++;
+            Debug.Log($"Passos: {currentSteps}/{maxStepsAllowed}");
+            UpdateStepsUI();
+            
+            // Verifica se os passos acabaram após o movimento
+            if (maxStepsAllowed > 0 && currentSteps >= maxStepsAllowed)
+            {
+                canMove = false;
+                isAlive = false;
+                Time.timeScale = 0f;
+                Debug.LogWarning("Game Over: Passos esgotados!");
+                menuScript?.ShowGameOverMenu();
+            }
         }
     }
 
@@ -69,7 +101,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        // Verifica se chegou na Flag. Evita chamar CompareTag se a tag n�o estiver definida.
+        // Verifica se chegou na Flag. Evita chamar CompareTag se a tag nï¿½o estiver definida.
         bool isFlag = false;
 
         if (bater.name == "Flag")
@@ -78,7 +110,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            // CompareTag lan�a UnityException se a tag n�o existe. Capturamos para evitar log repetido.
+            // CompareTag lanï¿½a UnityException se a tag nï¿½o existe. Capturamos para evitar log repetido.
             try
             {
                 if (bater.CompareTag("Flag"))
@@ -86,7 +118,7 @@ public class Player : MonoBehaviour
             }
             catch (UnityException)
             {
-                // Tag n�o definida � ignora a compara��o para evitar mensagens no console.
+                // Tag nï¿½o definida ï¿½ ignora a comparaï¿½ï¿½o para evitar mensagens no console.
             }
         }
 
@@ -130,7 +162,7 @@ public class Player : MonoBehaviour
         canMove = false;
 
         // Log no console por enquanto
-        Debug.Log(mensagem + $" (collected={lixosColetados}, total={totalLixosInLevel})");
+        Debug.Log(mensagem + $" (collected={lixosColetados}, total={totalLixosInLevel}, steps={currentSteps}/{maxStepsAllowed})");
         Debug.Log("Estrelas obtidas: " + estrelas);
 
         menuScript?.ShowLevelCompleteMenu();
@@ -156,7 +188,17 @@ public class Player : MonoBehaviour
         isAlive = true;
         canMove = true;
         Time.timeScale = 1f;
+        currentSteps = 0; // Reseta o contador de passos
 
         transform.position = initialPosition;
+        UpdateStepsUI();
+    }
+
+    private void UpdateStepsUI()
+    {
+        if (uiSteps != null)
+        {
+            uiSteps.UpdateStepsText(currentSteps, maxStepsAllowed);
+        }
     }
 }
