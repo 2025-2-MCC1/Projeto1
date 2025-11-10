@@ -2,8 +2,10 @@
 
 public class Inimigo : MonoBehaviour
 {
+    // Posição inicial do inimigo
     public Vector3 initialPosition;
 
+    // Velocidade de movimento do inimigo
     public float velocidade = 5f;
 
     // limites do movimento no eixo X
@@ -14,6 +16,7 @@ public class Inimigo : MonoBehaviour
 
     void Start()
     {
+        // Transforma a posição inicial do inimigo ao resetar a fase
         initialPosition = transform.position;
     }
 
@@ -23,7 +26,7 @@ public class Inimigo : MonoBehaviour
         Vector3 deslocamento = Vector3.right * direcao * velocidade * Time.deltaTime;
         transform.Translate(deslocamento);
 
-        // Inverte a direção ao atingir os limites
+        // Inverte a direção ao atingir os limites estabelecidos
         if (transform.position.x >= limiteDireita && direcao > 0f)
         {
             direcao = -3f;

@@ -3,17 +3,25 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Options menuScript; // Referï¿½ncia ao script de menu (classe `Options` em MenuScripts.cs)
-    [SerializeField] private UISteps uiSteps; // Referência ao script de UI de passos
 
+    // Referências aos scripts e objetos de UI
+    [SerializeField] private Options menuScript;
+    [SerializeField] private UISteps uiSteps;
+    [SerializeField] private Options fimDeFaseUI;
+    [SerializeField] private GameObject levelComplete;
+
+    // Referência ao inventário do jogador
     private PlayerInventory playerInventory;
 
+    // Estado do jogador
     private int health = 1;
     private bool canMove = true;
     private bool isAlive = true;
 
+    // Posição inicial do jogador
     private Vector3 initialPosition;
 
+    // Configurações da fase
     [Header("Level Settings")]
     [Tooltip("Quantidade total de lixos nesta fase. Ajuste conforme a fase.")]
     [SerializeField] private int totalLixosInLevel = 3;
@@ -22,8 +30,10 @@ public class Player : MonoBehaviour
     [Tooltip("Limite de passos permitidos nesta fase. 0 = sem limite.")]
     [SerializeField] private int maxStepsAllowed = 20;
 
+    // Contador de passos atuais
     private int currentSteps = 0;
 
+    // Inicialização do jogador na fase
     void Awake()
     {
         initialPosition = transform.position;
@@ -32,8 +42,10 @@ public class Player : MonoBehaviour
         UpdateStepsUI();
     }
 
+
     void Update()
     {
+        // Verifica se o jogador está vivo
         if (!isAlive)
         {
             canMove = false;
@@ -44,6 +56,7 @@ public class Player : MonoBehaviour
 
         bool moved = false;
 
+        // Movimento do jogador baseado na entrada do teclado
         if (Input.GetKeyDown(KeyCode.W) && (transform.position.z < 4.5f))
         {
             transform.position += new Vector3(0, 0, 1f);
@@ -68,14 +81,13 @@ public class Player : MonoBehaviour
             moved = true;
         }
 
-        // Incrementa contador se houve movimento
+        // Atualiza o contador de passos se o jogador se moveu
         if (moved)
         {
             currentSteps++;
             Debug.Log($"Passos: {currentSteps}/{maxStepsAllowed}");
             UpdateStepsUI();
-            
-            // Verifica se os passos acabaram após o movimento
+
             if (maxStepsAllowed > 0 && currentSteps >= maxStepsAllowed)
             {
                 canMove = false;
@@ -87,6 +99,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Detecta colisões com outros objetos
     void OnTriggerEnter(Collider bater)
     {
         HandleHit(bater.gameObject);
@@ -94,14 +107,14 @@ public class Player : MonoBehaviour
 
     private void HandleHit(GameObject bater)
     {
-        // Verifica se o objeto atingido tem o componente Inimigo
+        // Verifica se colidiu com um inimigo
         if (bater.GetComponent<Inimigo>() != null)
         {
             DamagePlayer();
             return;
         }
 
-        // Verifica se chegou na Flag. Evita chamar CompareTag se a tag nï¿½o estiver definida.
+        // Verifica se colidiu com a bandeira
         bool isFlag = false;
 
         if (bater.name == "Flag")
@@ -110,7 +123,6 @@ public class Player : MonoBehaviour
         }
         else
         {
-            // CompareTag lanï¿½a UnityException se a tag nï¿½o existe. Capturamos para evitar log repetido.
             try
             {
                 if (bater.CompareTag("Flag"))
@@ -118,7 +130,6 @@ public class Player : MonoBehaviour
             }
             catch (UnityException)
             {
-                // Tag nï¿½o definida ï¿½ ignora a comparaï¿½ï¿½o para evitar mensagens no console.
             }
         }
 
@@ -131,6 +142,7 @@ public class Player : MonoBehaviour
 
     private void OnReachedFlag()
     {
+        // Calcula o número de lixos coletados e determina a quantidade de estrelas obtidas na fase
         int lixosColetados = playerInventory != null ? playerInventory.NumeroLixos : 0;
         int lixosFaltando = totalLixosInLevel - lixosColetados;
 
@@ -158,16 +170,18 @@ public class Player : MonoBehaviour
             mensagem = "Chegou a bandeira com um lixo ou menos: 0 estrelas";
         }
 
-        // Desabilita movimento ao concluir
         canMove = false;
 
-        // Log no console por enquanto
+        // Exibe a mensagem de conclusão da fase e as estrelas obtidas
         Debug.Log(mensagem + $" (collected={lixosColetados}, total={totalLixosInLevel}, steps={currentSteps}/{maxStepsAllowed})");
         Debug.Log("Estrelas obtidas: " + estrelas);
 
         menuScript?.ShowLevelCompleteMenu();
+        levelComplete.SetActive(true);
+        fimDeFaseUI.MostrarEstrelas(estrelas);
     }
 
+    // Aplica dano ao jogador ao colidir com um inimigo
     public void DamagePlayer()
     {
         health--;
@@ -178,9 +192,11 @@ public class Player : MonoBehaviour
             Time.timeScale = 0f;
         }
 
+        // Exibe o menu de Game Over se o jogador morrer
         menuScript?.ShowGameOverMenu();
     }
 
+    // Reseta o estado do jogador para o do início da fase
     public void ResetPlayerState()
     {
         Debug.Log("resetou");
@@ -188,12 +204,13 @@ public class Player : MonoBehaviour
         isAlive = true;
         canMove = true;
         Time.timeScale = 1f;
-        currentSteps = 0; // Reseta o contador de passos
+        currentSteps = 0;
 
         transform.position = initialPosition;
         UpdateStepsUI();
     }
 
+    // Atualiza a UI de passos
     private void UpdateStepsUI()
     {
         if (uiSteps != null)
