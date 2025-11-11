@@ -1976,7 +1976,7 @@ MonoBehaviour:
   uiSteps: {fileID: 1242704729}
   fimDeFaseUI: {fileID: 1801231207}
   levelComplete: {fileID: 1801231206}
-  numeroDaFase: 2
+  numeroDaFase: 3
   totalLixosInLevel: 3
   maxStepsAllowed: 45
 --- !u!114 &261684564

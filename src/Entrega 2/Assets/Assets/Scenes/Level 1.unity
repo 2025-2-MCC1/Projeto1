@@ -8454,7 +8454,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1652574627}
         m_TargetAssemblyTypeName: MainMenuOptions, Assembly-CSharp
         m_MethodName: SelecionarFase2
         m_Mode: 1
@@ -10415,7 +10415,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1652574627}
         m_TargetAssemblyTypeName: MainMenuOptions, Assembly-CSharp
         m_MethodName: SelecionarFase1
         m_Mode: 1
@@ -14554,7 +14554,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1652574627}
         m_TargetAssemblyTypeName: MainMenuOptions, Assembly-CSharp
         m_MethodName: MainMenu
         m_Mode: 1

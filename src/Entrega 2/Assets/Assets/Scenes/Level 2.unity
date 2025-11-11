@@ -12586,8 +12586,8 @@ MonoBehaviour:
   initialPosition: {x: 0, y: 0, z: 0}
   velocidadeHorizontal: 2
   velocidadeVertical: 0
-  limiteDireita: -0.5
-  limiteEsquerda: -4.5
+  limiteDireita: 0.5
+  limiteEsquerda: -3.5
   limiteFrente: 3.5
   limiteTras: 3.5
 --- !u!136 &1812503895
