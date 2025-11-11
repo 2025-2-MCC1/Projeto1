@@ -29,14 +29,13 @@ public class Options : MonoBehaviour
 
     void Start()
     {
+        // Se estivermos no menu de conclusão de fase, mostrar as estrelas salvas
         if (isMenu)
         {
             int estrelasSalvas = PlayerPrefs.GetInt("Estrelas_Fase" + playerScript.numeroDaFase, 0);
             MostrarEstrelas(estrelasSalvas);
         }
     }
-
-
 
     // Método para mostrar menu de GameOver
     public void ShowGameOverMenu()
@@ -55,4 +54,5 @@ public class Options : MonoBehaviour
             levelCompleteMenuUI.SetActive(true);
         }
     }
+    
 }

@@ -45,60 +45,45 @@ public class Player : MonoBehaviour
         UpdateStepsUI();
     }
 
-
     void Update()
     {
-        // Verifica se o jogador está vivo
-        if (!isAlive)
+        if (!isAlive || !canMove) return;
+
+        Vector3 direcao = Vector3.zero;
+
+        if (Input.GetKeyDown(KeyCode.W) && transform.position.z < 4.5f)
+            direcao = Vector3.forward;
+        else if (Input.GetKeyDown(KeyCode.S) && transform.position.z > -4.5f)
+            direcao = Vector3.back;
+        else if (Input.GetKeyDown(KeyCode.A) && transform.position.x > -4.5f)
+            direcao = Vector3.left;
+        else if (Input.GetKeyDown(KeyCode.D) && transform.position.x < 4.5f)
+            direcao = Vector3.right;
+
+        // se nenhuma tecla foi pressionada, sai
+        if (direcao == Vector3.zero) return;
+
+        // verifica obstáculo
+        if (!Physics.Raycast(transform.position, direcao, 1f, LayerMask.GetMask("Wall")))
         {
-            canMove = false;
-            return;
-        }
-
-        if (!canMove) return;
-
-        bool moved = false;
-
-        // Movimento do jogador baseado na entrada do teclado
-        if (Input.GetKeyDown(KeyCode.W) && (transform.position.z < 4.5f))
-        {
-            transform.position += new Vector3(0, 0, 1f);
-            moved = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.S) && (transform.position.z > -4.5f))
-        {
-            transform.position += new Vector3(0, 0, -1f);
-            moved = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.A) && (transform.position.x > -4.5f))
-        {
-            transform.position += new Vector3(-1f, 0, 0);
-            moved = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.D) && (transform.position.x < 4.5f))
-        {
-            transform.position += new Vector3(1f, 0, 0);
-            moved = true;
-        }
-
-        // Atualiza o contador de passos se o jogador se moveu
-        if (moved)
-        {
-            currentSteps++;
+            transform.position += direcao; // ✅ move
+            currentSteps++; // ✅ conta passo somente agora
             Debug.Log($"Passos: {currentSteps}/{maxStepsAllowed}");
             UpdateStepsUI();
+        }
+        else
+        {
+            Debug.Log("Movimento bloqueado por parede.");
+        }
 
-            if (maxStepsAllowed > 0 && currentSteps >= maxStepsAllowed)
-            {
-                canMove = false;
-                isAlive = false;
-                Time.timeScale = 0f;
-                Debug.LogWarning("Game Over: Passos esgotados!");
-                menuScript?.ShowGameOverMenu();
-            }
+        // limite de passos
+        if (maxStepsAllowed > 0 && currentSteps >= maxStepsAllowed)
+        {
+            canMove = false;
+            isAlive = false;
+            Time.timeScale = 0f;
+            Debug.LogWarning("Game Over: Passos esgotados!");
+            menuScript?.ShowGameOverMenu();
         }
     }
 
@@ -167,23 +152,34 @@ public class Player : MonoBehaviour
             estrelas = 0;
         }
 
+        // Finaliza a fase
         canMove = false;
 
         Debug.Log("Estrelas obtidas: " + estrelas);
 
+        // Exibe o menu de conclusão de fase
         menuScript?.ShowLevelCompleteMenu();
+
+        // Ativa o painel de fim de fase e mostra as estrelas obtidas
         if (levelComplete != null) levelComplete.SetActive(true);
+
+        // Mostra as estrelas na UI de fim de fase
         fimDeFaseUI?.MostrarEstrelas(estrelas);
+
+        // Chama a função que salva o número de estrelas obtidas
         SalvarEstrelas(estrelas);
     }
 
     // Salva o número de estrelas obtidas na fase
     public void SalvarEstrelas(int estrelas)
     {
+        // Cria uma chave única para a fase atual
         string chave = "Estrelas_Fase" + numeroDaFase;
 
+        // Recupera o número de estrelas já salvas para esta fase
         int estrelasSalvas = PlayerPrefs.GetInt(chave, 0);
 
+        // Salva o novo número de estrelas somente se for maior que o salvo anteriormente
         if (estrelas > estrelasSalvas)
         {
             PlayerPrefs.SetInt(chave, estrelas);

@@ -2,38 +2,53 @@
 
 public class Inimigo : MonoBehaviour
 {
-    // Posição inicial do inimigo
+    // Referências para a posição inicial do inimigo
     public Vector3 initialPosition;
 
-    // Velocidade de movimento do inimigo
-    public float velocidade = 5f;
+    // Velocidades de movimento
+    public float velocidadeHorizontal = 0f;
+    public float velocidadeVertical = 0f;
 
-    // limites do movimento no eixo X
+    // Limites de movimento
     public float limiteDireita = 2.5f;
     public float limiteEsquerda = -1.5f;
 
-    private float direcao = 3f;
+    public float limiteFrente = 2.5f;
+    public float limiteTras = -1.5f;
+
+    // Direção atual do movimento
+    private float direcaoHorizontal = 1f;
+    private float direcaoVertical = 1f;
 
     void Start()
     {
-        // Transforma a posição inicial do inimigo ao resetar a fase
+        // Reseta a posição inicial do inimigo
         initialPosition = transform.position;
     }
 
     void Update()
     {
-        // Move o inimigo na direção atual
-        Vector3 deslocamento = Vector3.right * direcao * velocidade * Time.deltaTime;
-        transform.Translate(deslocamento);
+        // Movimento horizontal
+        if (velocidadeHorizontal != 0f)
+        {
+            // Move no eixo X
+            transform.Translate(Vector3.right * direcaoHorizontal * velocidadeHorizontal * Time.deltaTime);
 
-        // Inverte a direção ao atingir os limites estabelecidos
-        if (transform.position.x >= limiteDireita && direcao > 0f)
-        {
-            direcao = -3f;
+            // Inverte direção ao atingir limites
+            if (transform.position.x >= limiteDireita) direcaoHorizontal = -1f;
+            if (transform.position.x <= limiteEsquerda) direcaoHorizontal = 1f;
         }
-        else if (transform.position.x <= limiteEsquerda && direcao < 0f)
+
+        // Movimento vertical
+        else if (velocidadeVertical != 0f)
         {
-            direcao = 3f;
+            // Move no eixo Z
+            transform.Translate(Vector3.forward * direcaoVertical * velocidadeVertical * Time.deltaTime);
+
+            // Inverte direção ao atingir limites
+            if (transform.position.z >= limiteFrente) direcaoVertical = -1f;
+            if (transform.position.z <= limiteTras) direcaoVertical = 1f;
         }
     }
 }
+
