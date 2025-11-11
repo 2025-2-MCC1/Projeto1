@@ -169,14 +169,11 @@ public class Player : MonoBehaviour
 
         canMove = false;
 
-        // Exibe a mensagem de conclusão da fase e as estrelas obtidas
         Debug.Log("Estrelas obtidas: " + estrelas);
 
         menuScript?.ShowLevelCompleteMenu();
         if (levelComplete != null) levelComplete.SetActive(true);
         fimDeFaseUI?.MostrarEstrelas(estrelas);
-
-        // Salva as estrelas (chamada MOVIDA para dentro de um método válido)
         SalvarEstrelas(estrelas);
     }
 
@@ -232,4 +229,5 @@ public class Player : MonoBehaviour
             uiSteps.UpdateStepsText(currentSteps, maxStepsAllowed);
         }
     }
+
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Options : MonoBehaviour
@@ -9,6 +10,7 @@ public class Options : MonoBehaviour
     // Referências aos menus de UI
     public GameObject gameOverMenuUI;
     public GameObject levelCompleteMenuUI;
+    public bool isMenu = false;
 
     // Referências às estrelas na UI de conclusão de fase
     public Image star1;
@@ -16,20 +18,25 @@ public class Options : MonoBehaviour
     public Image star3;
 
     // Método para mostrar estrelas com base na pontuação
-    public void MostrarEstrelas(int estrelas)
+    public void MostrarEstrelas(int estrelasAtuais)
     {
         Debug.Log("Mostrando estrelas no objeto: " + gameObject.name);
 
-        star1.enabled = estrelas >= 1;
-        star2.enabled = estrelas >= 2;
-        star3.enabled = estrelas >= 3;
+        star1.enabled = estrelasAtuais >= 1;
+        star2.enabled = estrelasAtuais >= 2;
+        star3.enabled = estrelasAtuais >= 3;
     }
 
     void Start()
     {
-        int estrelas = PlayerPrefs.GetInt("Estrelas_Fase1", 0);
-        MostrarEstrelas(estrelas);
+        if (isMenu)
+        {
+            int estrelasSalvas = PlayerPrefs.GetInt("Estrelas_Fase" + playerScript.numeroDaFase, 0);
+            MostrarEstrelas(estrelasSalvas);
+        }
     }
+
+
 
     // Método para mostrar menu de GameOver
     public void ShowGameOverMenu()
